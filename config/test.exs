@@ -18,7 +18,10 @@ config :chatter, Chatter.Repo,
 config :chatter, ChatterWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "NzHGN0WstSA7iaAWqWFd674nm/qHMavPc2gkdq6lBJd0JqGODEtuVmdChKcSo9kI",
-  server: false
+  server: true
+
+config :chatter, :sql_sandbox, true
+config :wallaby, :driver, Wallaby.Chrome
 
 # In test we don't send emails.
 config :chatter, Chatter.Mailer, adapter: Swoosh.Adapters.Test
