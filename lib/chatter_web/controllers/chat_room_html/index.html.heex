@@ -3,7 +3,7 @@
 </h1>
 
 <ul>
-  <li :for={room <- @chat_rooms} class="room">
+  <li :for={room <- @chat_rooms} data-role="room">
     <%= room.name %>
   </li>
 </ul>
