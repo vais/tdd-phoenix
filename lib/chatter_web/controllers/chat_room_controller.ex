@@ -2,6 +2,9 @@ defmodule ChatterWeb.ChatRoomController do
   use ChatterWeb, :controller
 
   def index(conn, _params) do
-    render(conn, :index, layout: false)
+    rooms = Chatter.Chat.all_rooms()
+
+    assign(conn, :chat_rooms, rooms)
+    |> render(:index, layout: false)
   end
 end

@@ -41,6 +41,8 @@ defmodule Chatter.MixProject do
       {:phoenix_live_view, "~> 0.19.0"},
       {:floki, ">= 0.30.0", only: :test},
       {:wallaby, "~> 0.30", runtime: false, only: :test},
+      {:mix_test_watch, "~> 1.0", runtime: false, only: [:dev, :test]},
+      {:ex_machina, "~> 2.7.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.8.0"},
       {:esbuild, "~> 0.7", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.2.0", runtime: Mix.env() == :dev},

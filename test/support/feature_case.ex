@@ -8,6 +8,8 @@ defmodule ChatterWeb.FeatureCase do
 
       use ChatterWeb, :verified_routes
       use Wallaby.DSL
+
+      import Chatter.Factory
     end
   end
 
