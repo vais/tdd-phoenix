@@ -2,6 +2,8 @@
   Welcome to Chatter!
 </h1>
 
+<.link href={~p"/chat_rooms/new"}>New chat room</.link>
+
 <ul>
   <li :for={room <- @chat_rooms} data-role="room">
     <%= room.name %>
