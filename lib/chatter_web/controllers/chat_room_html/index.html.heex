@@ -6,6 +6,6 @@
 
 <ul>
   <li :for={room <- @chat_rooms} data-role="room">
-    <%= room.name %>
+    <.link href={~p"/chat_rooms/#{room}"}><%= room.name %></.link>
   </li>
 </ul>
