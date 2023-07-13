@@ -1,10 +1,12 @@
-<h1 id="title" data-role="room-title" data-chat-room-name={@room.name}><%= @room.name %></h1>
+<h1 id="chat-room-title" data-role="room-title" data-chat-room-name={@room.name}>
+  <%= @room.name %>
+</h1>
 
 <ul id="messages"></ul>
 
 <form>
   <label>
-    New Message <input type="text" id="message" name="message" autocomplete="off" />
+    New Message <input type="text" id="message" name="message" autocomplete="off" autofocus />
   </label>
   <button type="submit">Send</button>
 </form>
