@@ -2,26 +2,30 @@ defmodule ChatterWeb.UsersCanChatTest do
   use ChatterWeb.FeatureCase, async: true
 
   test "users can chat to each other", %{metadata: metadata} do
+    user = insert(:user)
+    another_user = insert(:user)
     room = insert(:chat_room)
 
-    user =
-      new_user(metadata)
+    session =
+      new_session(metadata)
       |> visit(~p"/")
+      |> sign_in(as: user)
       |> join_room(room.name)
 
-    another_user =
-      new_user(metadata)
+    another_session =
+      new_session(metadata)
       |> visit(~p"/")
+      |> sign_in(as: another_user)
       |> join_room(room.name)
 
-    user
+    session
     |> send_message("hello!")
 
-    another_user
+    another_session
     |> assert_has(message("hello!"))
     |> send_message("oh hi! welcome to #{room.name}!")
 
-    user
+    session
     |> assert_has(message("oh hi! welcome to #{room.name}!"))
   end
 
@@ -29,18 +33,18 @@ defmodule ChatterWeb.UsersCanChatTest do
     Query.data("role", "message", text: text)
   end
 
-  defp new_user(metadata) do
-    {:ok, user} = Wallaby.start_session(metadata: metadata)
-    user
+  defp new_session(metadata) do
+    {:ok, session} = Wallaby.start_session(metadata: metadata)
+    session
   end
 
-  defp join_room(user, room_name) do
-    user
+  defp join_room(session, room_name) do
+    session
     |> click(Query.link(room_name))
   end
 
-  defp send_message(user, message_text) do
-    user
+  defp send_message(session, message_text) do
+    session
     |> fill_in(Query.text_field("New Message"), with: message_text)
     |> click(Query.button("Send"))
   end

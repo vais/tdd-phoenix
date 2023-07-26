@@ -9,6 +9,7 @@ defmodule ChatterWeb.ChatRoomControllerTest do
 
       response =
         conn
+        |> sign_in
         |> post(~p"/chat_rooms", %{"room" => params})
         |> html_response(200)
 

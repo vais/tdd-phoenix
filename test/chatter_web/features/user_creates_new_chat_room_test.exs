@@ -2,8 +2,11 @@ defmodule ChatterWeb.UserCreatesNewChatRoomTest do
   use ChatterWeb.FeatureCase, async: true
 
   test "user creates new chat room", %{session: session} do
+    user = insert(:user)
+
     session
     |> visit(~p"/")
+    |> sign_in(as: user)
     |> click(new_room_link())
     |> create_chat_room(name: "hello")
     |> assert_has(room_title("hello"))

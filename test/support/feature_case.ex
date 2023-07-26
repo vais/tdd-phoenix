@@ -10,6 +10,7 @@ defmodule ChatterWeb.FeatureCase do
       use Wallaby.DSL
 
       import Chatter.Factory
+      import ChatterWeb.FeatureHelpers
     end
   end
 

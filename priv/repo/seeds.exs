@@ -9,3 +9,10 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+%Chatter.User{}
+|> Ecto.Changeset.change(%{email: "test@example.com", password: "password"})
+|> Doorman.Auth.Bcrypt.hash_password()
+|> Doorman.Auth.Secret.put_session_secret()
+|> Ecto.Changeset.apply_changes()
+|> Chatter.Repo.insert!()

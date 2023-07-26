@@ -28,6 +28,7 @@ defmodule ChatterWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import ChatterWeb.ConnCase
+      import ChatterWeb.ConnHelpers
       import Chatter.Factory
     end
   end
