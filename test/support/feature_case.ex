@@ -3,9 +3,6 @@ defmodule ChatterWeb.FeatureCase do
 
   using do
     quote do
-      # The default endpoint for testing
-      @endpoint ChatterWeb.Endpoint
-
       use ChatterWeb, :verified_routes
       use Wallaby.DSL
 

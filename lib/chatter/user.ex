@@ -11,11 +11,11 @@ defmodule Chatter.User do
     timestamps()
   end
 
-  @doc false
-  def changeset(user, attrs) do
+  def changeset(user, params) do
     user
-    |> cast(attrs, [:email, :hashed_password, :session_secret])
-    |> validate_required([:email, :hashed_password, :session_secret])
-    |> unique_constraint(:email)
+    |> cast(params, [:email, :password])
+    |> validate_required([:email, :password])
+    |> unique_constraint([:email])
+    |> Doorman.Auth.Bcrypt.hash_password()
   end
 end
