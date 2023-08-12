@@ -8,6 +8,9 @@
       <%= assigns[:page_title] || "Chatter" %>
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
+    <script>
+      window.email = '<%= assigns[:email] %>'
+    </script>
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
   </head>

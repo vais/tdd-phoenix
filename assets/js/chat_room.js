@@ -19,7 +19,7 @@ if (chatRoomTitle) {
   channel.on('new_message', payload => {
     const li = document.createElement('li');
     li.dataset.role = 'message';
-    li.innerText = payload.body;
+    li.innerText = `${payload.author}: ${payload.body}`;
     messagesContainer.appendChild(li);
   });
 
