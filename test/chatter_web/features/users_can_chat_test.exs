@@ -1,5 +1,5 @@
 defmodule ChatterWeb.UsersCanChatTest do
-  use ChatterWeb.FeatureCase, async: true
+  use ChatterWeb.FeatureCase, async: false
 
   test "users can chat to each other", %{metadata: metadata} do
     user = insert(:user)
@@ -10,13 +10,13 @@ defmodule ChatterWeb.UsersCanChatTest do
       new_session(metadata)
       |> visit(~p"/")
       |> sign_in(as: user)
-      |> join_room(room.name)
+      |> join_room(room)
 
     another_session =
       new_session(metadata)
       |> visit(~p"/")
       |> sign_in(as: another_user)
-      |> join_room(room.name)
+      |> join_room(room)
 
     session
     |> send_message("hello!")
@@ -31,6 +31,25 @@ defmodule ChatterWeb.UsersCanChatTest do
     |> assert_has(message("oh hi! welcome to #{room.name}!", author: another_user))
   end
 
+  test "new users can see previous messages in the chat room", %{metadata: metadata} do
+    room = insert(:chat_room)
+
+    user1 = insert(:user)
+    user2 = insert(:user)
+
+    new_session(metadata)
+    |> visit(~p"/")
+    |> sign_in(as: user1)
+    |> join_room(room)
+    |> send_message("hello there!")
+
+    new_session(metadata)
+    |> visit(~p"/")
+    |> sign_in(as: user2)
+    |> join_room(room)
+    |> assert_has(message("hello there!", author: user1))
+  end
+
   defp message(text, author: author) do
     message = "#{author.email}: #{text}"
     Query.data("role", "message", text: message)
@@ -41,9 +60,9 @@ defmodule ChatterWeb.UsersCanChatTest do
     session
   end
 
-  defp join_room(session, room_name) do
+  defp join_room(session, room) do
     session
-    |> click(Query.link(room_name))
+    |> click(Query.link(room.name))
   end
 
   defp send_message(session, message_text) do

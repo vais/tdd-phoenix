@@ -2,6 +2,13 @@ import socket from './socket';
 
 const chatRoomTitle = document.getElementById('chat-room-title');
 
+const addMessage = (message, container) => {
+  const li = document.createElement('li');
+  li.dataset.role = 'message';
+  li.innerText = `${message.author}: ${message.body}`;
+  container.appendChild(li);
+};
+
 if (chatRoomTitle) {
   const chatRoomName = chatRoomTitle.dataset.chatRoomName;
   const channel = socket.channel(`chat_room:${chatRoomName}`, {});
@@ -16,13 +23,16 @@ if (chatRoomTitle) {
     messageForm.reset();
   });
 
-  channel.on('new_message', payload => {
-    const li = document.createElement('li');
-    li.dataset.role = 'message';
-    li.innerText = `${payload.author}: ${payload.body}`;
-    messagesContainer.appendChild(li);
+  channel.on('new_message', message => {
+    addMessage(message, messagesContainer);
   });
 
-  channel.join();
+  channel
+    .join()
+    .receive("ok", res => {
+      res.messages.forEach(message => {
+        addMessage(message, messagesContainer);
+      });
+    });
 }
 
